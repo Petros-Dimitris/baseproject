@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd"		 
+		default-autowire="byName" >
+
+	<context:annotation-config />
+	
+	<import resource="persistenceContext.xml"/>
+	<bean id="wicketApplication" class="com.github.petrosdimitris.WicketApplication">
+	</bean>
+	
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath://application.properties"/>
+		<property name="fileEncoding" value="UTF-8"/>
+		<property name="nullValue" value="[null]"/>
+	</bean>	
+	
+	<bean id="connectionFactory" class="com.github.petrosdimitris.services.ConnectionFactory">
+	    <property name="connectionUrl" value="${hibernate.connection.url}"/>
+	    <property name="connectionDriverClass" value="${hibernate.connection.driver_class}"/>
+	    <property name="connectionUsername" value="${hibernate.connection.username}"/>
+	    <property name="connectionPassword" value="${hibernate.connection.password}"/>
+	</bean>	
+	
+</beans>
