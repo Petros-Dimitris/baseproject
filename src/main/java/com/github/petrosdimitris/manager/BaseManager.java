@@ -4,19 +4,17 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-public abstract class BaseManager<T> {
+public abstract class BaseManager<T, S> {
 	@Resource
 	protected PlatformTransactionManager platformTransactionManager;
 
@@ -39,17 +37,11 @@ public abstract class BaseManager<T> {
 		return entityManager.unwrap(Session.class);
 	}
 
-	protected CriteriaBuilder getCriteriaBuilder() {
-		return getSession().getCriteriaBuilder();
+	protected void addOrder(S search, Criteria criteria) {
+		criteria.addOrder(Order.desc("id"));
 	}
 
-	protected Root<T> root() {
-		CriteriaBuilder builder = getCriteriaBuilder();
-		CriteriaQuery<Object> query = builder.createQuery();
-		return query.from(type);
-	}
-
-	public List<T> search(Long first, Long count) {
+	public List<T> search(S search, Long first, Long count) {
 		return inTransaction(new TransactionCallback<List<T>>() {
 
 			@Override
@@ -57,6 +49,7 @@ public abstract class BaseManager<T> {
 				Criteria criteria = getSession().createCriteria(type);
 				criteria.setFirstResult(first.intValue());
 				criteria.setMaxResults(count.intValue());
+				addOrder(search, criteria);
 				List<T> items = criteria.list();
 				return items;
 			}
@@ -64,7 +57,7 @@ public abstract class BaseManager<T> {
 		});
 	}
 
-	public Long searchCount() {
+	public Long searchCount(S search) {
 		return inTransaction(new TransactionCallback<Long>() {
 
 			@Override

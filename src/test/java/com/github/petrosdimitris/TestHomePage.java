@@ -4,8 +4,8 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.petrosdimitris.HomePage;
 import com.github.petrosdimitris.WicketApplication;
+import com.github.petrosdimitris.pages.HomePage;
 
 /**
  * Simple test using the WicketTester

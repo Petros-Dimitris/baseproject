@@ -1,4 +1,4 @@
-package com.github.petrosdimitris;
+package com.github.petrosdimitris.pages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

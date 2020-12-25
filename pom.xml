@@ -67,6 +67,12 @@
 			<artifactId>wicket-extensions</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.wicket/wicket-auth-roles -->
+		<dependency>
+		    <groupId>org.apache.wicket</groupId>
+		    <artifactId>wicket-auth-roles</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.wicket/wicket-spring -->
 		<dependency>
 		    <groupId>org.apache.wicket</groupId>

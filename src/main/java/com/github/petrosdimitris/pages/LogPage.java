@@ -1,9 +1,11 @@
-package com.github.petrosdimitris;
+package com.github.petrosdimitris.pages;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.authroles.authorization.strategies.role.Roles;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
@@ -15,7 +17,9 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.github.petrosdimitris.domain.Log;
 import com.github.petrosdimitris.manager.LogManager;
+import com.github.petrosdimitris.search.LogSearch;
 
+@AuthorizeInstantiation(Roles.ADMIN)
 public class LogPage extends WebPage {
 	@SpringBean
 	private LogManager manager;
@@ -33,12 +37,12 @@ public class LogPage extends WebPage {
 
 			@Override
 			public Iterator<? extends Log> iterator(long first, long count) {
-				return manager.search(first, count).iterator();
+				return manager.search(getSearch(), first, count).iterator();
 			}
 
 			@Override
 			public long size() {
-				return manager.searchCount();
+				return manager.searchCount(getSearch());
 			}
 
 			@Override
@@ -50,5 +54,9 @@ public class LogPage extends WebPage {
 
 		add(new DefaultDataTable<>("table", columns, provider, 25));
 
+	}
+
+	protected LogSearch getSearch() {
+		return new LogSearch();
 	}
 }

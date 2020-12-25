@@ -63,6 +63,10 @@
 	<bean id="logManager" class="com.github.petrosdimitris.manager.LogManager">
 		<property name="entityManager" ref="myEntityManager" />
 	</bean>
+	
+	<bean id="signInManager" class="com.github.petrosdimitris.manager.SignInManager">
+		<property name="entityManager" ref="myEntityManager" />
+	</bean>
 	<!-- 
 	<bean id="auditEventListener" class="gr.sol.picy.persistence.utils.AuditedEventListener">
           <lookup-method name="getLoggedOnUserProvider" bean="loggedOnUserProvider"/>
